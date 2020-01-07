@@ -10,7 +10,7 @@ const allowCrossDomain = function(req, res, next) {
 
     // intercept OPTIONS method
     if ('OPTIONS' == req.method) {
-      res.send(200);
+      res.sendStatus(200)
     }
     else {
       next();
@@ -34,7 +34,7 @@ app.post('/subscribe', (req, res) => {
             if (err) {
                 return res.send(err);
             }
-            res.send('Successful');
+            res.sendStatus(200);
             db.close();
         });
     });
