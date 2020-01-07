@@ -34,7 +34,7 @@ app.post('/subscribe', (req, res) => {
             if (err) {
                 return res.send(err);
             }
-            res.sendStatus(200);
+            res.json(result);
             db.close();
         });
     });
