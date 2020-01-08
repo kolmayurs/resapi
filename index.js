@@ -71,7 +71,11 @@ app.post('/add', (req, res) => {
             if (err) {
                 return res.send(err);
             }
-            res.json(result.ops);
+            dbo.collection("amp-data").find({}).toArray(function(err, result) {
+            if (err) throw err;
+            res.json(result);
+            db.close();
+        });
             db.close();
         });
     });
