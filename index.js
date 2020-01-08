@@ -41,6 +41,7 @@ app.post('/subscribe', (req, res) => {
 
 });
 
+
 app.get('/emails', (req, res) => {
     MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
         if (err) {
@@ -54,6 +55,43 @@ app.get('/emails', (req, res) => {
         });
     });
 });
+
+
+app.post('/add', (req, res) => {
+    res.header('Access-Control-Allow-Origin', 'https://amp.gmail.dev');
+    res.header('AMP-Access-Control-Allow-Source-Origin', 'amp@gmail.dev');
+    res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
+    MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
+        if (err) {
+            return res.send(err);
+        }
+        var dbo = db.db("myDB");
+        var myobj = { name:req.body.name, email: req.body.email };
+        dbo.collection("amp-data").insertOne(myobj, function(err, result) {
+            if (err) {
+                return res.send(err);
+            }
+            res.json(result);
+            db.close();
+        });
+    });
+
+});
+
+app.get('/data', (req, res) => {
+    MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
+        if (err) {
+            return res.send(err);
+        }
+        var dbo = db.db("myDB");
+        dbo.collection("amp-data").find({}).toArray(function(err, result) {
+            if (err) throw err;
+            res.json(result);
+            db.close();
+        });
+    });
+});
+
 
 var port = Number(process.env.PORT || 4000);
 app.listen(port, () => {
