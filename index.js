@@ -9,15 +9,7 @@ const allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Methods', 'GET,POST');
     res.header('AMP-Access-Control-Allow-Source-Origin', 'amp@gmail.dev');
     res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
-    res.header('status ', '200');
-
-    // intercept OPTIONS method
-    if ('OPTIONS' == req.method) {
-      res.sendStatus(200)
-    }
-    else {
-      next();
-    }
+    res.sendStatus(200);
 };
 app.use(allowCrossDomain);
 app.use(bodyParser.urlencoded({ extended: false }));
