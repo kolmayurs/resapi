@@ -53,7 +53,7 @@ app.get('/emails', (req, res) => {
         var dbo = db.db("myDB");
         dbo.collection("resapi").find({}).toArray(function(err, result) {
             if (err) throw err;
-            res.json(result);
+            res.json("items" : result);
             db.close();
         });
     });
@@ -92,7 +92,7 @@ app.get('/data', (req, res) => {
         var dbo = db.db("myDB");
         dbo.collection("amp-data").find({}).toArray(function(err, result) {
             if (err) throw err;
-            res.json(result);
+            res.json("items" : result);
             db.close();
         });
     });
