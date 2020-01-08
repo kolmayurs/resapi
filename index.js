@@ -34,6 +34,7 @@ app.post('/subscribe', (req, res) => {
             if (err) {
                 return res.send(err);
             }
+            res.sendStatus(200)
             res.json(result);
             db.close();
         });
@@ -53,6 +54,7 @@ app.get('/emails', (req, res) => {
         var dbo = db.db("myDB");
         dbo.collection("resapi").find({}).toArray(function(err, result) {
             if (err) throw err;
+            res.sendStatus(200)
             res.json({"items": result});
             db.close();
         });
@@ -74,6 +76,7 @@ app.post('/add', (req, res) => {
             if (err) {
                 return res.send(err);
             }
+            res.sendStatus(200)
             res.json(myobj);
             db.close();
         });
@@ -95,6 +98,7 @@ res.header('Access-Control-Allow-Origin: *');
         var dbo = db.db("myDB");
         dbo.collection("amp-data").find({}).toArray(function(err, result) {
             if (err) throw err;
+            res.sendStatus(200)
             res.json({"items": result});
             db.close();
         });
