@@ -4,15 +4,13 @@ const app = express();
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb+srv://kolimayurs:29031991@cluster0-onizc.mongodb.net';
 const allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'https://amp.gmail.dev');
-    res.header('access-control-allow-headers', 'amp4email-proxy-assertion');
-    res.header('Access-Control-Allow-Methods', 'GET,POST');
-    res.header('AMP-Access-Control-Allow-Source-Origin', 'amp@gmail.dev');
-    res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
 
     // intercept OPTIONS method
     if ('OPTIONS' == req.method) {
-      res.sendStatus(200);
+      res.sendStatus(200)
     }
     else {
       next();
@@ -23,6 +21,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.post('/subscribe', (req, res) => {
+	res.header('Access-Control-Allow-Origin', 'https://amp.gmail.dev');
+    res.header('AMP-Access-Control-Allow-Source-Origin', 'amp@gmail.dev');
+    res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
     MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
         if (err) {
             return res.send(err);
@@ -34,7 +35,6 @@ app.post('/subscribe', (req, res) => {
                 return res.send(err);
             }
             res.json(result);
-            res.sendStatus(200);
             db.close();
         });
     });
@@ -43,6 +43,9 @@ app.post('/subscribe', (req, res) => {
 
 
 app.get('/emails', (req, res) => {
+      res.header('Access-Control-Allow-Origin', 'https://amp.gmail.dev');
+    res.header('AMP-Access-Control-Allow-Source-Origin', 'amp@gmail.dev');
+    res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
     MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
         if (err) {
             return res.send(err);
@@ -51,7 +54,6 @@ app.get('/emails', (req, res) => {
         dbo.collection("resapi").find({}).toArray(function(err, result) {
             if (err) throw err;
             res.json({"items": result});
-            res.sendStatus(200);
             db.close();
         });
     });
@@ -59,6 +61,9 @@ app.get('/emails', (req, res) => {
 
 
 app.post('/add', (req, res) => {
+    res.header('Access-Control-Allow-Origin', 'https://amp.gmail.dev');
+    res.header('AMP-Access-Control-Allow-Source-Origin', 'amp@gmail.dev');
+    res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
     MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
         if (err) {
             return res.send(err);
@@ -70,7 +75,6 @@ app.post('/add', (req, res) => {
                 return res.send(err);
             }
             res.json(myobj);
-            res.sendStatus(200);
             db.close();
         });
     });
@@ -78,6 +82,12 @@ app.post('/add', (req, res) => {
 });
 
 app.get('/data', (req, res) => {
+      res.header('Access-Control-Allow-Origin', 'https://amp.gmail.dev');
+    res.header('AMP-Access-Control-Allow-Source-Origin', 'amp@gmail.dev');
+    res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
+    res.header("Content-type: application/json");
+res.header("Access-Control-Allow-Credentials: true");
+res.header('Access-Control-Allow-Origin: *');
     MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
         if (err) {
             return res.send(err);
@@ -86,7 +96,6 @@ app.get('/data', (req, res) => {
         dbo.collection("amp-data").find({}).toArray(function(err, result) {
             if (err) throw err;
             res.json({"items": result});
-            res.sendStatus(200);
             db.close();
         });
     });
