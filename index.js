@@ -71,7 +71,7 @@ app.post('/add', (req, res) => {
             if (err) {
                 return res.send(err);
             }
-            res.json(result);
+            res.json(result.ops);
             db.close();
         });
     });
