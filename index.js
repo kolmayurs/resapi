@@ -9,7 +9,14 @@ const allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Methods', 'GET,POST');
     res.header('AMP-Access-Control-Allow-Source-Origin', 'amp@gmail.dev');
     res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
-    res.sendStatus(200);
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+      res.sendStatus(200);
+    }
+    else {
+      next();
+    }
 };
 app.use(allowCrossDomain);
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -27,6 +34,7 @@ app.post('/subscribe', (req, res) => {
                 return res.send(err);
             }
             res.json(result);
+            res.sendStatus(200);
             db.close();
         });
     });
@@ -43,6 +51,7 @@ app.get('/emails', (req, res) => {
         dbo.collection("resapi").find({}).toArray(function(err, result) {
             if (err) throw err;
             res.json({"items": result});
+            res.sendStatus(200);
             db.close();
         });
     });
@@ -61,6 +70,7 @@ app.post('/add', (req, res) => {
                 return res.send(err);
             }
             res.json(myobj);
+            res.sendStatus(200);
             db.close();
         });
     });
@@ -76,6 +86,7 @@ app.get('/data', (req, res) => {
         dbo.collection("amp-data").find({}).toArray(function(err, result) {
             if (err) throw err;
             res.json({"items": result});
+            res.sendStatus(200);
             db.close();
         });
     });
