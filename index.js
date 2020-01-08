@@ -3,20 +3,6 @@ const bodyParser = require('body-parser');
 const app = express();
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb+srv://kolimayurs:29031991@cluster0-onizc.mongodb.net';
-const allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-
-    // intercept OPTIONS method
-    if ('OPTIONS' == req.method) {
-      res.sendStatus(200)
-    }
-    else {
-      next();
-    }
-};
-app.use(allowCrossDomain);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -90,7 +76,6 @@ app.get('/data', (req, res) => {
     res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
     res.header("Content-type: application/json");
 res.header("Access-Control-Allow-Credentials: true");
-res.header('Access-Control-Allow-Origin: *');
     MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
         if (err) {
             return res.send(err);
