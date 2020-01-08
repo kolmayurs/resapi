@@ -43,6 +43,9 @@ app.post('/subscribe', (req, res) => {
 
 
 app.get('/emails', (req, res) => {
+      res.header('Access-Control-Allow-Origin', 'https://amp.gmail.dev');
+    res.header('AMP-Access-Control-Allow-Source-Origin', 'amp@gmail.dev');
+    res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
     MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
         if (err) {
             return res.send(err);
@@ -79,6 +82,9 @@ app.post('/add', (req, res) => {
 });
 
 app.get('/data', (req, res) => {
+      res.header('Access-Control-Allow-Origin', 'https://amp.gmail.dev');
+    res.header('AMP-Access-Control-Allow-Source-Origin', 'amp@gmail.dev');
+    res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
     MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
         if (err) {
             return res.send(err);
