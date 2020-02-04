@@ -5,8 +5,10 @@ const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb+srv://kolimayurs:29031991@cluster0-onizc.mongodb.net';
 const allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', 'https://amp.gmail.dev');
-    res.header('AMP-Access-Control-Allow-Source-Origin', 'amp@gmail.dev');
-    res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
+    res.header('AMP-Access-Control-Allow-Source-Origin', 'chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop');
+    res.header('Access-Control-Expose-Headers', 'Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token');
+    res.header('Access-Control-Allow-methods', 'POST, GET, OPTIONS');
+
     // intercept OPTIONS method
     if ('OPTIONS' == req.method) {
         res.status(200)
@@ -19,9 +21,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.post('/subscribe', (req, res) => {
-    res.header("Content-type: application/json");
-    res.header("Access-Control-Allow-Credentials: true");
-    res.header('Access-Control-Allow-Origin: *');
+
+
 
     MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
         if (err) {
@@ -42,9 +43,6 @@ app.post('/subscribe', (req, res) => {
 
 
 app.get('/emails', (req, res) => {
-    res.header("Content-type: application/json");
-    res.header("Access-Control-Allow-Credentials: true");
-    res.header('Access-Control-Allow-Origin: *');
     MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
         if (err) {
             return res.send(err);
@@ -60,9 +58,6 @@ app.get('/emails', (req, res) => {
 
 
 app.post('/add', (req, res) => {
-    res.header("Content-type: application/json");
-    res.header("Access-Control-Allow-Credentials: true");
-    res.header('Access-Control-Allow-Origin: *');
     MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
         if (err) {
             return res.send(err);
@@ -81,9 +76,6 @@ app.post('/add', (req, res) => {
 });
 
 app.get('/data', (req, res) => {
-    res.header("Content-type: application/json");
-    res.header("Access-Control-Allow-Credentials: true");
-    res.header('Access-Control-Allow-Origin: *');
     MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
         if (err) {
             return res.send(err);
