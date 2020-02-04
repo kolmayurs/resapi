@@ -7,7 +7,7 @@ const allowCrossDomain = function(req, res, next) {
    res.header('Access-Control-Allow-Origin', 'https://amp.gmail.dev');
     res.header('AMP-Access-Control-Allow-Source-Origin', 'amp@gmail.dev');
     res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
-        res.header('status', '200');
+    res.header('status', '200');
 
     // intercept OPTIONS method
     if ('OPTIONS' == req.method) {
@@ -33,7 +33,7 @@ app.post('/subscribe', (req, res) => {
             if (err) {
                 return res.send(err);
             }
-            res.json(result);
+            res.status(200).json(result);
             db.close();
         });
     });
@@ -49,7 +49,7 @@ app.get('/emails', (req, res) => {
         var dbo = db.db("myDB");
         dbo.collection("resapi").find({}).toArray(function(err, result) {
             if (err) throw err;
-            res.json({"items": result});
+            res.status(200).json({"items": result});
             db.close();
         });
     });
@@ -67,7 +67,7 @@ app.post('/add', (req, res) => {
             if (err) {
                 return res.send(err);
             }
-            res.json(myobj);
+            res.status(200).json(myobj);
             db.close();
         });
     });
@@ -83,8 +83,7 @@ app.get('/data', (req, res) => {
         dbo.collection("amp-data").find({}).toArray(function(err, result) {
 
             if (err) throw err;
-            res.status(200);
-            res.json({"items": result});
+            res.status(200).json({"items": result});
             db.close();
         });
     });
