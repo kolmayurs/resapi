@@ -4,12 +4,18 @@ const app = express();
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb+srv://kolimayurs:29031991@cluster0-onizc.mongodb.net';
 const allowCrossDomain = function(req, res, next) {
-   res.header('Access-Control-Allow-Origin', '*');
+   res.header('Access-Control-Allow-Origin', 'https://amp.gmail.dev');
+    res.header('AMP-Access-Control-Allow-Source-Origin', 'amp@gmail.dev');
+    res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
+    res.header('status', '200');
+    /*
+    res.header('Access-Control-Allow-Origin', '*');
     res.header('access-control-allow-credentials', 'true');
     res.header('access-control-allow-headers', 'amp4email-proxy-assertion');
     res.header('access-control-allow-methods', 'POST,GET');
     res.header('cache-control', 'no-cache, no-store, max-age=0, must-revalidate');
     res.header('status', '200');
+    */
 
     // intercept OPTIONS method
     if ('OPTIONS' == req.method) {
